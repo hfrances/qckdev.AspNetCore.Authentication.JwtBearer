@@ -34,7 +34,7 @@ variables:
   - name: BuildParameters.RestoreBuildProjects
     value: '**/*.sln'
   - name: BuildParameters.Solution
-    value: '*.Build.sln'
+    value: '*.sln'
   - name: BuildParameters.TestProjects
     value: '**/*Test.??proj'
   - name: BuildParameters.ProjectKey
