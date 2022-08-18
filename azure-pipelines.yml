@@ -1,7 +1,7 @@
 ###############################
-### Template Version: 2.2.0 ###
+### Template Version: 2.2.1 ###
 ### Author: hfrances        ###
-### Date: 17/01/2022        ###
+### Date: 06/07/2022        ###
 ###############################
 
 trigger:
@@ -11,7 +11,7 @@ trigger:
   - azure-pipelines
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'ubuntu-latest'
 
 parameters:
   - name: Deploy
@@ -34,7 +34,7 @@ variables:
   - name: BuildParameters.RestoreBuildProjects
     value: '**/*.sln'
   - name: BuildParameters.Solution
-    value: '*.Build.sln'
+    value: '*.sln'
   - name: BuildParameters.TestProjects
     value: '**/*Test.??proj'
   - name: BuildParameters.ProjectKey
@@ -140,32 +140,32 @@ jobs:
       
             write-output "##vso[task.addattachment type=Distributedtask.Core.Summary;name=Environment Variables;]$fileName" 
      
-      - task: FileTransform@2
-        inputs:
-          folderPath: '$(System.DefaultWorkingDirectory)'
-          jsonTargetFiles: '**/appsettings.json'
-          xmlTransformationRules: '' # disabled
+#      - task: FileTransform@2
+#        inputs:
+#          folderPath: '$(System.DefaultWorkingDirectory)'
+#          jsonTargetFiles: '**/appsettings.json'
+#          xmlTransformationRules: '' # disabled
 
-      - task: UseDotNet@2
-        inputs:
-          packageType: 'sdk'
-          version: '6.0.x'
-          includePreviewVersions: false
-        displayName: 'UseDotNet 6.0'
-
-      - task: UseDotNet@2
-        inputs:
-          packageType: 'sdk'
-          version: '5.0.x'
-          includePreviewVersions: false
-        displayName: 'UseDotNet 5.0'
-      
-      - task: UseDotNet@2
-        inputs:
-          packageType: 'runtime'
-          version: '3.1.x'
-          includePreviewVersions: false
-        displayName: 'UseDotNet 3.1'
+#      - task: UseDotNet@2
+#        inputs:
+#          packageType: 'sdk'
+#          version: '6.0.x'
+#          includePreviewVersions: false
+#        displayName: 'UseDotNet 6.0'
+#
+#      - task: UseDotNet@2
+#        inputs:
+#          packageType: 'sdk'
+#          version: '5.0.x'
+#          includePreviewVersions: false
+#        displayName: 'UseDotNet 5.0'
+#      
+#      - task: UseDotNet@2
+#        inputs:
+#          packageType: 'runtime'
+#          version: '3.1.x'
+#          includePreviewVersions: false
+#        displayName: 'UseDotNet 3.1'
 
       - task: DotNetCoreCLI@2
         displayName: Restore
@@ -198,14 +198,14 @@ jobs:
         inputs:
           projects: '$(BuildParameters.RestoreBuildProjects)'
           arguments: '--configuration $(BuildConfiguration)'
-     
+
       - task: DotNetCoreCLI@2
         displayName: 'Test + Coverage'
         inputs:
           command: test
           projects: '$(BuildParameters.TestProjects)'
           arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[*Tests]*" /p:CoverletOutput="$(Build.SourcesDirectory)/TestResults/"'
-     
+
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
@@ -218,17 +218,17 @@ jobs:
 
       - task: reportgenerator@4
         inputs:
-          reports: '**/*.[Oo]pencover.xml;**/[Oo]pencover.xml'
+          reports: '**/*.[Oo]pencover.xml;**/[Oo]pencover.xml;*.[Oo]pencover.xml;[Oo]pencover.xml'
           targetdir: '$(Build.SourcesDirectory)/TestResults/'
         continueOnError: true
         condition: eq(variables.HasTests, 'true')
         displayName: 'Coverage: Parse format'
-     
+
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
           script: |
-            $path = @("**/*.[Cc]obertura.xml", "**/[Cc]obertura.xml");
+            $path = @("**/*.[Cc]obertura.xml", "**/[Cc]obertura.xml", "*.[Cc]obertura.xml", "[Cc]obertura.xml");
             $files = @();
             $coverageResults = "";
             Get-Item $path;
@@ -270,7 +270,7 @@ jobs:
       - task: DotNetCoreCLI@2
         inputs:
           command: 'pack'
-          packagesToPack: '**/*.??proj;!examples/**/*.??proj;!**/*.Test.??proj'
+          packagesToPack: '**/*.??proj;!examples/**/*.??proj;!**/*.Test.??proj;!**/*.Test.*.??proj'
           packDirectory: '$(Build.ArtifactStagingDirectory)/build'
           nobuild: true
           versioningScheme: 'off'
@@ -304,4 +304,5 @@ jobs:
 # Version 2.1.1: Fix 'Publish Artifact: build'
 #                Add condition for 'Nuget: Push'
 # Version 2.2.0: Add 'UseDotNet 6.0'
+# Version 2.2.1: Fix 'Nuget pack'
 ################################################################################################

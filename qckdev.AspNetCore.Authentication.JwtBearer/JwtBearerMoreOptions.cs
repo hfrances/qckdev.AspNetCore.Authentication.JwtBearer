@@ -4,6 +4,10 @@ using System.Text;
 
 namespace qckdev.AspNetCore.Authentication.JwtBearer
 {
+
+    /// <summary>
+    /// Additional options class provides information needed to control Bearer Authentication handler behavior.
+    /// </summary>
     public class JwtBearerMoreOptions
     {
 
