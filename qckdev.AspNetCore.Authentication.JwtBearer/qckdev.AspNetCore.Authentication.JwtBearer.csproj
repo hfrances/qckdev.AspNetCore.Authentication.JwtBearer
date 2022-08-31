@@ -6,7 +6,9 @@
     <Authors>hfrances</Authors>
     <Company>TrCode</Company>
     <Product>qckdev.AspNetCore.Authentication.JwtBearer (Preview)</Product>
+    <Description>Provides tools to configure JWT bearer authentication.</Description>
     <PackageProjectUrl>https://github.com/hfrances/qckdev.AspNetCore.Authentication.JwtBearer</PackageProjectUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
