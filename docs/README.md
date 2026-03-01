@@ -5,6 +5,8 @@ Welcome to the documentation for `qckdev.AspNetCore.Authentication.JwtBearer`.
 ## Table of Contents
 
 - [Framework Compatibility](COMPATIBILITY.md) - Supported frameworks, package versions, and security considerations
+- [Integration Testing](TESTING.md) - Comprehensive test suite for JWT Bearer authentication
+- [Test Coverage Guide](../TEST_COVERAGE.md) - Patterns and coverage across all projects
 
 ## Quick Links
 
@@ -21,6 +23,16 @@ Detailed information about:
 - Security vulnerability mitigations
 - Migration guides for EOL frameworks
 - Version selection strategy
+
+### [Integration Testing](TESTING.md)
+Detailed guide to:
+- Integration test architecture and patterns
+- Complete test coverage (8 tests)
+- Token generation and validation
+- Test configuration and environment setup
+- Security considerations and best practices
+
+### [Test Coverage Guide](../TEST_COVERAGE.md)
 
 ## Contributing
 

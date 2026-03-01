@@ -120,3 +120,18 @@ Provides tools to configure JWT bearer authentication.
         .AddJwtBearer(AUTHENTICATIONSCHEME_TOKEN, jwtTokenConfiguration);
 
 ```
+
+## Testing
+
+This library includes comprehensive integration tests covering token validation, signature verification, and expiration handling.
+
+**8 integration tests** validate the complete JWT Bearer authentication pipeline:
+- Public endpoint access
+- Challenge response (401 Unauthorized)
+- Valid and expired tokens
+- Token format validation
+- Bearer scheme and claims handling
+
+For detailed testing documentation, see [Integration Testing Guide](docs/TESTING.md).
+
+````
