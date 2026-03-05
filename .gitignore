@@ -261,4 +261,4 @@ __pycache__/
 *.pyc
 
 # Others
-appsettings.development.json
+appsettings.*.json
