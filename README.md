@@ -1,7 +1,7 @@
-<a href="https://www.nuget.org/packages/qckdev.AspNetCore.Authentication.JwtBearer"><img src="https://img.shields.io/nuget/v/qckdev.AspNetCore.Authentication.JwtBearer.svg" alt="NuGet Version"/></a>
-<a href="https://sonarcloud.io/dashboard?id=qckdev.AspNetCore.Authentication.JwtBearer"><img src="https://sonarcloud.io/api/project_badges/measure?project=qckdev.AspNetCore.Authentication.JwtBearer&metric=alert_status" alt="Quality Gate"/></a>
-<a href="https://sonarcloud.io/dashboard?id=qckdev.AspNetCore.Authentication.JwtBearer"><img src="https://sonarcloud.io/api/project_badges/measure?project=qckdev.AspNetCore.Authentication.JwtBearer&metric=coverage" alt="Code Coverage"/></a>
-<a><img src="https://hfrances.visualstudio.com/qckdev/_apis/build/status/qckdev.AspNetCore.Authentication.JwtBearer?branchName=master" alt="Azure Pipelines Status"/></a>
+[![NuGet Version](https://img.shields.io/nuget/v/qckdev.AspNetCore.Authentication.JwtBearer.svg)](https://www.nuget.org/packages/qckdev.AspNetCore.Authentication.JwtBearer)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=qckdev.AspNetCore.Authentication.JwtBearer&metric=alert_status)](https://sonarcloud.io/dashboard?id=qckdev.AspNetCore.Authentication.JwtBearer)
+[![Code Coverage](https://sonarcloud.io/api/project_badges/measure?project=qckdev.AspNetCore.Authentication.JwtBearer&metric=coverage)](https://sonarcloud.io/dashboard?id=qckdev.AspNetCore.Authentication.JwtBearer)
+![Azure Pipelines Status](https://hfrances.visualstudio.com/qckdev/_apis/build/status/qckdev.AspNetCore.Authentication.JwtBearer?branchName=master)
 
 
 # qckdev.AspNetCore.Authentication.JwtBearer
@@ -135,3 +135,9 @@ This library includes comprehensive integration tests covering token validation,
 For detailed testing documentation, see [Integration Testing Guide](docs/TESTING.md).
 
 ````
+
+## 🤝 Contributing
+Issues and pull requests are welcome! See the contribution guidelines (coming soon).
+
+## 📜 License
+This project is licensed under the terms of the [MIT License](LICENSE).
