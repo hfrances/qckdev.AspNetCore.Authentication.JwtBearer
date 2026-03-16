@@ -8,6 +8,14 @@
 
 Provides tools to configure JWT bearer authentication.
 
+## 🛠️ Installation
+
+```bash
+dotnet add package qckdev.AspNetCore.Authentication.JwtBearer
+```
+
+## ⚡ Quick Start
+
 ``` json
 
     {
@@ -133,8 +141,6 @@ This library includes comprehensive integration tests covering token validation,
 - Bearer scheme and claims handling
 
 For detailed testing documentation, see [Integration Testing Guide](docs/TESTING.md).
-
-````
 
 ## 🤝 Contributing
 Issues and pull requests are welcome! See the contribution guidelines (coming soon).
