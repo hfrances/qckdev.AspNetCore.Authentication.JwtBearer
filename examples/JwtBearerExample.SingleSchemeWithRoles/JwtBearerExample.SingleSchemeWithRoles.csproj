@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0;net8.0;net6.0;netcoreapp3.1</TargetFrameworks>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\qckdev.AspNetCore.Authentication.JwtBearer\qckdev.AspNetCore.Authentication.JwtBearer.csproj" />
+    <ProjectReference Include="..\..\..\qckdev.Authentication.JwtBearer\qckdev.Authentication.JwtBearer\qckdev.Authentication.JwtBearer.csproj" />
+  </ItemGroup>
+
+</Project>
