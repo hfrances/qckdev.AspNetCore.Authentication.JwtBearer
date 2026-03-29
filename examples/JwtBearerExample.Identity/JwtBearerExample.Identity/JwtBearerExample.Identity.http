@@ -1,0 +1,52 @@
+@JwtBearerExample.Identity_HostAddress = https://localhost:7219
+@contentType = application/json
+
+### Public endpoint (no auth)
+GET {{JwtBearerExample.Identity_HostAddress}}/auth/public
+Accept: {{contentType}}
+
+### Login as Admin and get JWT
+POST {{JwtBearerExample.Identity_HostAddress}}/auth/token
+Content-Type: {{contentType}}
+
+{
+  "email": "admin@local.dev",
+  "password": "Admin123!"
+}
+
+### Login as Support and get JWT
+POST {{JwtBearerExample.Identity_HostAddress}}/auth/token
+Content-Type: {{contentType}}
+
+{
+  "email": "support@local.dev",
+  "password": "Support123!"
+}
+
+### Set token manually from /auth/token response
+@accessToken = paste-jwt-here
+
+### Who am I (JWT required)
+GET {{JwtBearerExample.Identity_HostAddress}}/auth/whoami
+Accept: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+### Role endpoint - Admin only
+GET {{JwtBearerExample.Identity_HostAddress}}/roles/admin
+Accept: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+### Role endpoint - Support only
+GET {{JwtBearerExample.Identity_HostAddress}}/roles/support
+Accept: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+### Role endpoint - Admin OR Support
+GET {{JwtBearerExample.Identity_HostAddress}}/roles/either
+Accept: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+### Weather endpoint (JWT required)
+GET {{JwtBearerExample.Identity_HostAddress}}/weatherforecast
+Accept: {{contentType}}
+Authorization: Bearer {{accessToken}}

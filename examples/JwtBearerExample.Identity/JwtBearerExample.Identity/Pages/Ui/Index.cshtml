@@ -1,0 +1,56 @@
+@page "/ui"
+@model JwtBearerExample.Identity.Pages.Ui.IndexModel
+@{
+    ViewData["Title"] = "Identity UI";
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+    var roles = User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).Select(c => c.Value).Distinct().ToArray();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        body { font-family: "Segoe UI", Arial, sans-serif; margin: 2rem; max-width: 900px; line-height: 1.5; }
+        .card { border: 1px solid #d4d4d8; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1rem; background: #fafafa; }
+        code { background: #f4f4f5; padding: 0.1rem 0.35rem; border-radius: 4px; }
+        a { text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>JwtBearerExample.Identity UI</h1>
+    <div class="card">
+        @if (isAuthenticated)
+        {
+            <p><strong>Status:</strong> Signed in</p>
+            <p><strong>User:</strong> @(User.Identity?.Name ?? "unknown")</p>
+            <p><strong>Roles:</strong> @(roles.Length == 0 ? "(none)" : string.Join(", ", roles))</p>
+            @if (!string.IsNullOrWhiteSpace(Model.BearerToken))
+            {
+                <p><strong>Bearer token for Swagger:</strong></p>
+                <textarea readonly rows="7" style="width:100%; font-family:Consolas, monospace; font-size:0.9rem;">@Model.BearerToken</textarea>
+                @if (Model.ExpiresAtUtc.HasValue)
+                {
+                    <p><strong>Expires (UTC):</strong> @Model.ExpiresAtUtc.Value.ToString("u")</p>
+                }
+            }
+            <p><a href="/ui/me">View profile</a></p>
+            <form method="post" action="/ui/logout">
+                @Html.AntiForgeryToken()
+                <button type="submit">Sign Out</button>
+            </form>
+        }
+        else
+        {
+            <p><strong>Status:</strong> Not signed in</p>
+            <p><a href="/ui/login">Go to login</a></p>
+        }
+    </div>
+
+    <div class="card">
+        <p><strong>Swagger:</strong> <a href="/swagger" target="_blank" rel="noopener">Open API docs</a></p>
+        <p><strong>JWT endpoint:</strong> <code>POST /auth/token</code></p>
+    </div>
+</body>
+</html>

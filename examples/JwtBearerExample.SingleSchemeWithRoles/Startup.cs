@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using JwtBearerExample.SingleSchemeWithRoles.Swagger;
 
 namespace JwtBearerExample.SingleSchemeWithRoles
 {
@@ -62,6 +63,7 @@ namespace JwtBearerExample.SingleSchemeWithRoles
                 options.AddPolicy(PolicyAdminOrSupport, policy => policy.RequireRole("Admin", "Support"));
             });
             services.AddControllers();
+            services.AddSwagger();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -75,6 +77,8 @@ namespace JwtBearerExample.SingleSchemeWithRoles
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSwagger();
 
             app.UseEndpoints(endpoints =>
             {

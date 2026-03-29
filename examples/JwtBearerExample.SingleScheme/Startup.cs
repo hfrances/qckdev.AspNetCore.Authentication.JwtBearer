@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using JwtBearerExample.SingleScheme.Swagger;
 
 namespace JwtBearerExample.SingleScheme
 {
@@ -53,6 +54,7 @@ namespace JwtBearerExample.SingleScheme
 
             services.AddAuthorization();
             services.AddControllers();
+            services.AddSwagger();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -66,6 +68,8 @@ namespace JwtBearerExample.SingleScheme
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSwagger();
 
             app.UseEndpoints(endpoints =>
             {
