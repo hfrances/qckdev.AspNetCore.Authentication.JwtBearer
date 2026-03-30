@@ -68,7 +68,7 @@ namespace JwtBearerExample.MultipleSchemes.Swagger
                     cfg.AddRule(Startup.AUTHENTICATIONSCHEME_CODE, "/jwt/token/code", rule =>
                     {
                         rule.TokenJsonPath = "accessToken";
-                        rule.Log = false;
+                        rule.Log = true;
                     });
 
                     cfg.AddRule(Startup.AUTHENTICATIONSCHEME_TOKEN, "/jwt/token/bearer", rule =>
