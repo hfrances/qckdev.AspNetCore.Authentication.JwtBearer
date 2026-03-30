@@ -9,6 +9,7 @@ using System.Reflection;
 
 namespace JwtBearerExample.MultipleSchemes.Swagger
 {
+    [Obsolete("Temporary example filter. Replace it with qckdev.AspNetCore.Swagger.Filters.SecurityRequirementsOperationFilter when this branch is merged to master.")]
     sealed class SecurityRequirementsOperationFilter : IOperationFilter
     {
         readonly IAuthenticationSchemeProvider _authenticationSchemeProvider;
