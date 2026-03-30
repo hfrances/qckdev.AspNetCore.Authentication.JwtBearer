@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace JwtBearerExample.MultipleSchemes.Controllers
@@ -16,14 +17,15 @@ namespace JwtBearerExample.MultipleSchemes.Controllers
         /// </summary>
         /// <response code="200">Token generated successfully.</response>
         [HttpPost("code")]
-        public async Task<IActionResult> Code([FromServices] IJwtGeneratorService tokenService, [FromBody] TokenRequest? request)
+        public async Task<IActionResult> Code([FromServices] IJwtGeneratorService tokenService, [FromBody] TokenRequest? request, CancellationToken cancellationToken)
         {
             var model = request ?? new TokenRequest();
             var token = await tokenService.CreateTokenAsync(
                 Startup.AUTHENTICATIONSCHEME_CODE,
                 model.UserName,
                 model.Roles,
-                new[] { new Claim("scope", "api.code") });
+                new[] { new Claim("scope", "api.code") },
+                cancellationToken);
 
             return Ok(token);
         }
@@ -33,14 +35,15 @@ namespace JwtBearerExample.MultipleSchemes.Controllers
         /// </summary>
         /// <response code="200">Token generated successfully.</response>
         [HttpPost("bearer")]
-        public async Task<IActionResult> Bearer([FromServices] IJwtGeneratorService tokenService, [FromBody] TokenRequest? request)
+        public async Task<IActionResult> Bearer([FromServices] IJwtGeneratorService tokenService, [FromBody] TokenRequest? request, CancellationToken cancellationToken)
         {
             var model = request ?? new TokenRequest();
             var token = await tokenService.CreateTokenAsync(
                 Startup.AUTHENTICATIONSCHEME_TOKEN,
                 model.UserName,
                 model.Roles,
-                new[] { new Claim("scope", "api.token") });
+                new[] { new Claim("scope", "api.token") },
+                cancellationToken);
 
             return Ok(token);
         }

@@ -11,7 +11,7 @@ namespace JwtBearerExample.Identity;
 
 public class Program
 {
-    public static async Task Main(string[] args)
+    private static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
@@ -84,7 +84,7 @@ public class Program
         var app = builder.Build();
         app.MapDefaultEndpoints();
 
-        await IdentitySeeder.SeedAsync(app.Services);
+        await IdentitySeeder.SeedAsync(app.Services, CancellationToken.None);
 
         if (app.Environment.IsDevelopment())
         {

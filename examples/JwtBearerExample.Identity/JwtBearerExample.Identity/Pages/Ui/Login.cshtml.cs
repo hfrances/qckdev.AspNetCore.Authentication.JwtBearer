@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading;
 
 namespace JwtBearerExample.Identity.Pages.Ui;
 
@@ -30,8 +31,9 @@ public class LoginModel : PageModel
     {
     }
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var user = await _userManager.FindByEmailAsync(Input.Email);
         if (user is null)
         {
@@ -39,6 +41,7 @@ public class LoginModel : PageModel
             return Page();
         }
 
+        cancellationToken.ThrowIfCancellationRequested();
         var result = await _signInManager.PasswordSignInAsync(user, Input.Password, isPersistent: true, lockoutOnFailure: false);
         if (!result.Succeeded)
         {

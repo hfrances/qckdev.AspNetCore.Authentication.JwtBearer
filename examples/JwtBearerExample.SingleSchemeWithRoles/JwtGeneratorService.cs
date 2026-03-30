@@ -4,6 +4,7 @@ using qckdev.AspNetCore.Authentication.JwtBearer;
 using qckdev.Authentication.JwtBearer;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace JwtBearerExample.SingleSchemeWithRoles
@@ -21,8 +22,9 @@ namespace JwtBearerExample.SingleSchemeWithRoles
             _jwtMoreOptionsMonitor = jwtMoreOptionsMonitor;
         }
 
-        public Task<JwtToken> CreateTokenAsync(string scheme, string userName, IEnumerable<string> roles, IEnumerable<Claim> claims)
+        public Task<JwtToken> CreateTokenAsync(string scheme, string userName, IEnumerable<string> roles, IEnumerable<Claim> claims, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var jwtOptions = _jwtOptionsMonitor.Get(scheme);
             var jwtMoreOptions = _jwtMoreOptionsMonitor.Get(scheme);
 

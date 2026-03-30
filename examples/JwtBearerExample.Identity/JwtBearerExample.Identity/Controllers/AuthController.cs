@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Threading;
 
 namespace JwtBearerExample.Identity.Controllers;
 
@@ -35,21 +36,25 @@ public sealed class AuthController : ControllerBase
         [FromBody] LoginRequest request,
         [FromServices] UserManager<IdentityUser> userManager,
         [FromServices] SignInManager<IdentityUser> signInManager,
-        [FromServices] JwtTokenService tokenService)
+        [FromServices] JwtTokenService tokenService,
+        CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var user = await userManager.FindByEmailAsync(request.Email);
         if (user is null)
         {
             return Unauthorized("invalid-credentials");
         }
 
+        cancellationToken.ThrowIfCancellationRequested();
         var check = await signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
         if (!check.Succeeded)
         {
             return Unauthorized("invalid-credentials");
         }
 
-        var token = await tokenService.CreateTokenAsync(user);
+        cancellationToken.ThrowIfCancellationRequested();
+        var token = await tokenService.CreateTokenAsync(user, cancellationToken);
         return Ok(token);
     }
 

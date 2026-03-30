@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 
 namespace JwtBearerExample.Identity.Security;
 
@@ -19,9 +20,11 @@ public sealed class JwtTokenService
         _jwtOptions = jwtOptions.Value;
     }
 
-    public async Task<LoginResponse> CreateTokenAsync(IdentityUser user)
+    public async Task<LoginResponse> CreateTokenAsync(IdentityUser user, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var roles = await _userManager.GetRolesAsync(user);
+        cancellationToken.ThrowIfCancellationRequested();
 
         var claims = new List<Claim>
         {

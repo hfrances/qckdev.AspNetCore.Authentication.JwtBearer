@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace JwtBearerExample.SingleScheme.Controllers
@@ -40,14 +41,15 @@ namespace JwtBearerExample.SingleScheme.Controllers
         /// </summary>
         /// <response code="200">Token generated successfully.</response>
         [HttpPost("token")]
-        public async Task<IActionResult> Token([FromServices] IJwtGeneratorService tokenService, [FromBody] TokenRequest? request)
+        public async Task<IActionResult> Token([FromServices] IJwtGeneratorService tokenService, [FromBody] TokenRequest? request, CancellationToken cancellationToken)
         {
             var model = request ?? new TokenRequest();
             var token = await tokenService.CreateTokenAsync(
                 JwtBearerDefaults.AuthenticationScheme,
                 model.UserName,
                 model.Roles,
-                new[] { new Claim("scope", "api.read") });
+                new[] { new Claim("scope", "api.read") },
+                cancellationToken);
 
             return Ok(token);
         }

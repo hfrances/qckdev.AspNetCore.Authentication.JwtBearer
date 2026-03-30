@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using System.Threading;
 
 namespace JwtBearerExample.Identity.Data;
 
@@ -14,14 +15,16 @@ public static class IdentitySeeder
 
     private static readonly string[] SeedRoles = ["Admin", "Support", "Viewer"];
 
-    public static async Task SeedAsync(IServiceProvider services)
+    public static async Task SeedAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         using var scope = services.CreateScope();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
         foreach (var role in SeedRoles)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             if (!await roleManager.RoleExistsAsync(role))
             {
                 var createRoleResult = await roleManager.CreateAsync(new IdentityRole(role));
@@ -34,6 +37,7 @@ public static class IdentitySeeder
 
         foreach (var seedUser in SeedUsers)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var user = await userManager.FindByEmailAsync(seedUser.Email);
             if (user is null)
             {
@@ -52,6 +56,7 @@ public static class IdentitySeeder
             }
 
             var existingRoles = await userManager.GetRolesAsync(user);
+            cancellationToken.ThrowIfCancellationRequested();
             var missingRoles = seedUser.Roles.Except(existingRoles, StringComparer.OrdinalIgnoreCase).ToArray();
             if (missingRoles.Length > 0)
             {
