@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using JwtBearerExample.MultipleSchemes.Swagger;
+using JwtBearerExample.MultipleSchemes.Common;
 
 namespace JwtBearerExample.MultipleSchemes
 {
@@ -49,6 +50,8 @@ namespace JwtBearerExample.MultipleSchemes
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseConfiguredBasePath(Configuration);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

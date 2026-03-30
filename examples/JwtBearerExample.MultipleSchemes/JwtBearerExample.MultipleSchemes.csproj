@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\qckdev.AspNetCore.Authentication.JwtBearer\qckdev.AspNetCore.Authentication.JwtBearer.csproj" />
+    <ProjectReference Include="..\..\qckdev.AspNetCore.Authentication.JwtBearer.Swagger\qckdev.AspNetCore.Authentication.JwtBearer.Swagger.csproj" />
     <ProjectReference Include="..\..\..\qckdev.Authentication.JwtBearer\qckdev.Authentication.JwtBearer\qckdev.Authentication.JwtBearer.csproj" />
   </ItemGroup>
 

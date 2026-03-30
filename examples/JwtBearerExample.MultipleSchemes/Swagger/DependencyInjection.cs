@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using qckdev.AspNetCore.Authentication.JwtBearer.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.IO;
@@ -16,6 +17,7 @@ namespace JwtBearerExample.MultipleSchemes.Swagger
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "JwtBearer Multiple Schemes API", Version = "v1" });
                 c.AddXmlCommentsFromCurrentAssembly();
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -27,20 +29,16 @@ namespace JwtBearerExample.MultipleSchemes.Swagger
                     Description = "JWT Authorization header using the Bearer scheme."
                 });
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                c.AddSecurityDefinition("Code", new OpenApiSecurityScheme
                 {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        System.Array.Empty<string>()
-                    }
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Description = "JWT Authorization header using the Code scheme."
                 });
+
             });
 
             return services;
@@ -61,9 +59,24 @@ namespace JwtBearerExample.MultipleSchemes.Swagger
         public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
         {
             SwaggerBuilderExtensions.UseSwagger(app);
+            app.UseJwtBearerSwaggerUiStaticFiles();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "JwtBearer Multiple Schemes API v1");
+                c.UseJwtBearerSwaggerUi(cfg =>
+                {
+                    cfg.AddRule(Startup.AUTHENTICATIONSCHEME_CODE, "/jwt/token/code", rule =>
+                    {
+                        rule.TokenJsonPath = "accessToken";
+                        rule.Log = true;
+                    });
+
+                    cfg.AddRule(Startup.AUTHENTICATIONSCHEME_TOKEN, "/jwt/token/bearer", rule =>
+                    {
+                        rule.TokenJsonPath = "accessToken";
+                        rule.Log = true;
+                    });
+                });
             });
 
             return app;

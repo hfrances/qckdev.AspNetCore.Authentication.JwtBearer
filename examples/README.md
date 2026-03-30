@@ -81,6 +81,16 @@ curl -X POST http://localhost:5220/jwt/token/code -H "Content-Type: application/
 curl -X POST http://localhost:5220/jwt/token/bearer -H "Content-Type: application/json" -d "{\"userName\":\"token.user\"}"
 ```
 
+### Docker
+
+From `examples/JwtBearerExample.MultipleSchemes`:
+
+```bash
+docker compose up --build -d
+```
+
+This compose starts `api` + `nginx` reverse proxy. Use Swagger via `http://localhost:5220/api/swagger`.
+
 ## 4) JwtBearerExample.Identity
 
 ### What It Demonstrates
